@@ -1,0 +1,228 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure digitalSTROM VDC",
+        "description": "Set up the VDC host connection to your digitalSTROM Smart Service (dSS)",
+        "data": {
+          "port": "TCP Port"
+        },
+        "data_description": {
+          "port": "Port number for VDC TCP server (default: 8444)"
+        }
+      },
+      "vdc_init": {
+        "title": "Initialize VDC Host",
+        "description": "Your Home Assistant IP: {ip_address}\nGenerated dsUID: {dsuid}",
+        "data": {
+          "vdc_name": "VDC Name",
+          "use_generated_dsuid": "Use generated dsUID"
+        },
+        "data_description": {
+          "vdc_name": "Name for this VDC host",
+          "use_generated_dsuid": "Use the automatically generated dsUID based on your IP address"
+        }
+      },
+      "zeroconf_setup": {
+        "title": "Service Discovery",
+        "description": "Configure automatic service discovery via Zeroconf",
+        "data": {
+          "announce_service": "Enable service announcement",
+          "service_name": "Service name"
+        },
+        "data_description": {
+          "announce_service": "Announce VDC service for automatic discovery by dSS",
+          "service_name": "Service name for Zeroconf announcement"
+        }
+      },
+      "dss_connect": {
+        "title": "Connect to DSS",
+        "description": "VDC Name: {vdc_name}\nPort: {port}\nService: {service_name}\n\nThe VDC host is ready to accept connections from your dSS. Please configure your dSS to connect to this VDC.",
+        "data": {}
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to dSS",
+      "invalid_port": "Invalid port number (must be 1024-65535)",
+      "port_in_use": "Port is already in use",
+      "unknown": "Unexpected error occurred",
+      "dss_handshake_failed": "Handshake with dSS failed",
+      "invalid_dsuid": "Invalid dsUID format"
+    },
+    "abort": {
+      "already_configured": "This VDC is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Manage Devices",
+        "description": "Current devices: {device_count}",
+        "data": {
+          "action": "Action"
+        }
+      },
+      "add_device": {
+        "title": "Add Device",
+        "description": "Choose how to create your device",
+        "data": {
+          "method": "Creation Method"
+        }
+      },
+      "template_select": {
+        "title": "Select Template",
+        "description": "Choose a device template",
+        "data": {
+          "template": "Template"
+        }
+      },
+      "template_configure": {
+        "title": "Configure Device",
+        "description": "Template: {template_name}\n{template_description}\n\nConfigure device instance and bind to Home Assistant entities",
+        "data": {
+          "instance_name": "Device Name"
+        }
+      },
+      "manual_device": {
+        "title": "Device Configuration",
+        "description": "Configure general device parameters",
+        "data": {
+          "name": "Device Name",
+          "primary_group": "Primary Group"
+        }
+      },
+      "add_inputs": {
+        "title": "Add Inputs",
+        "description": "Current inputs: {input_count}\n\nAdd button, binary, or sensor inputs to your device",
+        "data": {
+          "add_input": "Add Input",
+          "input_type": "Input Type"
+        }
+      },
+      "configure_button": {
+        "title": "Configure Button",
+        "description": "Set up button input parameters",
+        "data": {
+          "name": "Button Name",
+          "button_type": "Button Type"
+        }
+      },
+      "configure_binary_input": {
+        "title": "Configure Binary Input",
+        "description": "Set up binary input and bind to Home Assistant entity",
+        "data": {
+          "name": "Input Name",
+          "input_type": "Input Type",
+          "entity_id": "Entity"
+        }
+      },
+      "configure_sensor": {
+        "title": "Configure Sensor",
+        "description": "Set up sensor and bind to Home Assistant entity",
+        "data": {
+          "name": "Sensor Name",
+          "sensor_type": "Sensor Type",
+          "min_value": "Minimum Value",
+          "max_value": "Maximum Value",
+          "unit": "Unit of Measurement",
+          "entity_id": "Entity"
+        }
+      },
+      "add_output": {
+        "title": "Add Output",
+        "description": "Add output channels to control devices",
+        "data": {
+          "add_output": "Add Output Channel"
+        }
+      },
+      "add_channel": {
+        "title": "Add Channel",
+        "description": "Current channels: {channel_count}\n\nConfigure output channel and bind to entity",
+        "data": {
+          "channel_type": "Channel Type",
+          "min_value": "Minimum Value",
+          "max_value": "Maximum Value",
+          "initial_value": "Initial Value",
+          "entity_id": "Entity"
+        }
+      }
+    },
+    "abort": {
+      "device_creation_failed": "Failed to create device"
+    }
+  },
+  "services": {
+    "announce_device": {
+      "name": "Announce Device",
+      "description": "Manually announce or re-announce a device to the digitalSTROM Smart Service (dSS)",
+      "fields": {
+        "force": {
+          "name": "Force Announcement",
+          "description": "Force re-announcement even if device was already announced"
+        }
+      }
+    },
+    "call_scene": {
+      "name": "Call Scene",
+      "description": "Call a digitalSTROM scene on a device",
+      "fields": {
+        "scene_number": {
+          "name": "Scene Number",
+          "description": "Scene number to call (0-127). Common scenes - 5:Area1Off, 14:Preset1, 17:WakeUp, 18:Panic"
+        }
+      }
+    },
+    "save_scene": {
+      "name": "Save Scene",
+      "description": "Save the current device state as a scene",
+      "fields": {
+        "scene_number": {
+          "name": "Scene Number",
+          "description": "Scene number to save to (32-63 for user scenes)"
+        }
+      }
+    },
+    "undo_scene": {
+      "name": "Undo Scene",
+      "description": "Undo the last scene and restore previous state"
+    },
+    "call_min_scene": {
+      "name": "Call Minimum Scene",
+      "description": "Call a scene only if device is currently below minimum threshold (< 1%)",
+      "fields": {
+        "scene_number": {
+          "name": "Scene Number",
+          "description": "Scene number to call conditionally"
+        }
+      }
+    },
+    "dim_channel": {
+      "name": "Dim Channel",
+      "description": "Incrementally dim a channel up or down",
+      "fields": {
+        "channel_index": {
+          "name": "Channel Index",
+          "description": "Output channel index (0 for first channel)"
+        },
+        "direction": {
+          "name": "Direction",
+          "description": "Dim direction (up, down, stop)"
+        }
+      }
+    },
+    "refresh_templates": {
+      "name": "Refresh Templates",
+      "description": "Reload available device templates from pyvdcapi library"
+    },
+    "set_local_priority": {
+      "name": "Set Local Priority",
+      "description": "Set local priority for a scene (prevents remote override)",
+      "fields": {
+        "scene_number": {
+          "name": "Scene Number",
+          "description": "Scene number to set priority for"
+        }
+      }
+    }
+  }
+}

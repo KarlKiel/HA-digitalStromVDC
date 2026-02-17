@@ -1,0 +1,14 @@
+{
+  "name": "digitalSTROM VDC Integration",
+  "render_readme": true,
+  "domains": [
+    "light",
+    "switch",
+    "sensor",
+    "binary_sensor",
+    "cover",
+    "climate",
+    "button"
+  ],
+  "homeassistant": "2024.1.0"
+}

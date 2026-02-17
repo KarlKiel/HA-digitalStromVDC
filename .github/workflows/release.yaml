@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Get version
+        id: version
+        run: |
+          version=$(jq -r '.version' custom_components/digitalstrom_vdc/manifest.json)
+          echo "version=$version" >> $GITHUB_OUTPUT
+
+      - name: Create ZIP
+        run: |
+          cd custom_components
+          zip -r digitalstrom_vdc.zip digitalstrom_vdc/
+          mv digitalstrom_vdc.zip ../
+
+      - name: Upload ZIP to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./digitalstrom_vdc.zip
+          asset_name: digitalstrom_vdc-${{ steps.version.outputs.version }}.zip
+          asset_content_type: application/zip

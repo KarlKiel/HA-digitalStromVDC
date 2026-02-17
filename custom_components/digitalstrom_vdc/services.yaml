@@ -1,0 +1,126 @@
+announce_device:
+  name: Announce Device
+  description: Manually announce or re-announce a device to the digitalSTROM Smart Service (dSS)
+  target:
+    device:
+      integration: digitalstrom_vdc
+  fields:
+    force:
+      name: Force Announcement
+      description: Force re-announcement even if device was already announced
+      default: false
+      selector:
+        boolean:
+
+call_scene:
+  name: Call Scene
+  description: Call a digitalSTROM scene on a device
+  target:
+    device:
+      integration: digitalstrom_vdc
+  fields:
+    scene_number:
+      name: Scene Number
+      description: Scene number to call (0-127). Common scenes - 5:Area1Off, 14:Preset1, 17:WakeUp, 18:Panic
+      required: true
+      example: 17
+      selector:
+        number:
+          min: 0
+          max: 127
+          mode: box
+
+save_scene:
+  name: Save Scene
+  description: Save the current device state as a scene
+  target:
+    device:
+      integration: digitalstrom_vdc
+  fields:
+    scene_number:
+      name: Scene Number
+      description: Scene number to save to (32-63 for user scenes)
+      required: true
+      example: 50
+      selector:
+        number:
+          min: 32
+          max: 63
+          mode: box
+
+undo_scene:
+  name: Undo Scene
+  description: Undo the last scene and restore previous state
+  target:
+    device:
+      integration: digitalstrom_vdc
+
+call_min_scene:
+  name: Call Minimum Scene
+  description: Call a scene only if device is currently below minimum threshold (< 1%)
+  target:
+    device:
+      integration: digitalstrom_vdc
+  fields:
+    scene_number:
+      name: Scene Number
+      description: Scene number to call conditionally
+      required: true
+      example: 17
+      selector:
+        number:
+          min: 0
+          max: 127
+          mode: box
+
+dim_channel:
+  name: Dim Channel
+  description: Incrementally dim a channel up or down
+  target:
+    device:
+      integration: digitalstrom_vdc
+  fields:
+    channel_index:
+      name: Channel Index
+      description: Output channel index (0 for first channel)
+      required: true
+      default: 0
+      selector:
+        number:
+          min: 0
+          max: 10
+          mode: box
+    direction:
+      name: Direction
+      description: Dim direction
+      required: true
+      selector:
+        select:
+          options:
+            - label: "Increase"
+              value: "up"
+            - label: "Decrease"
+              value: "down"
+            - label: "Stop"
+              value: "stop"
+
+refresh_templates:
+  name: Refresh Templates
+  description: Reload available device templates from pyvdcapi library
+
+set_local_priority:
+  name: Set Local Priority
+  description: Set local priority for a scene (prevents remote override)
+  target:
+    device:
+      integration: digitalstrom_vdc
+  fields:
+    scene_number:
+      name: Scene Number
+      description: Scene number to set priority for
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 127
+          mode: box
